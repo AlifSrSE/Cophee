@@ -1,0 +1,9 @@
+{
+  "extends": "@cophee/configs/tsconfig/base",
+  "compilerOptions": {
+    "outDir": "../../dist/out",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

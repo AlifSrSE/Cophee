@@ -1,0 +1,31 @@
+{
+  "name": "@cophee/configs",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./tsconfig/base": {
+      "types": "./tsconfig/base.d.ts",
+      "import": "./tsconfig/base.json"
+    },
+    "./tsconfig/nextjs": {
+      "types": "./tsconfig/nextjs.d.ts",
+      "import": "./tsconfig/nextjs.json"
+    },
+    "./eslint": {
+      "types": "./eslint.d.ts",
+      "import": "./eslint/index.js"
+    },
+    "./prettier": {
+      "types": "./prettier.d.ts",
+      "import": "./prettier/index.js"
+    }
+  }
+}

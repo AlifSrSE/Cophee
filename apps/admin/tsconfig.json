@@ -1,0 +1,15 @@
+{
+  "extends": "@cophee/configs/tsconfig/nextjs",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@cophee/ui": ["../../packages/ui/src/index.ts"],
+      "@cophee/api-client": ["../../packages/api-client/src/index.ts"],
+      "@cophee/logger": ["../../packages/logger/src/index.ts"],
+      "@cophee/database": ["../../packages/database/src/index.ts"],
+      "@cophee/types": ["../../packages/types/src/index.ts"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

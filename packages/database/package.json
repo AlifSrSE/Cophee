@@ -1,0 +1,25 @@
+{
+  "name": "@cophee/database",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./prisma": {
+      "types": "./prisma/index.d.ts",
+      "import": "./prisma/index.js"
+    }
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.8.2"
+  }
+}

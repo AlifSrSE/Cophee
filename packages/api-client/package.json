@@ -1,0 +1,18 @@
+{
+  "name": "@cophee/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  }
+}

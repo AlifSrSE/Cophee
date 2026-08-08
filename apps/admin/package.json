@@ -6,9 +6,19 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:push": "prisma db push --schema=../../packages/database/prisma/schema.prisma",
+    "db:seed": "tsx ../../packages/database/src/seed.ts",
+    "db:studio": "prisma studio --schema=../../packages/database/prisma/schema.prisma"
   },
   "dependencies": {
+    "@cophee/api-client": "workspace:*",
+    "@cophee/configs": "workspace:*",
+    "@cophee/database": "workspace:*",
+    "@cophee/logger": "workspace:*",
+    "@cophee/types": "workspace:*",
+    "@cophee/ui": "workspace:*",
     "@prisma/client": "^6.8.2",
     "next": "15.3.3",
     "prisma": "^6.8.2",
@@ -16,7 +26,6 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -24,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "tailwindcss": "^4",
+    "tsx": "^4.7.0",
     "typescript": "^5"
   }
 }
