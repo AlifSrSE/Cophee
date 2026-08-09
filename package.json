@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "packageManager": "pnpm@11.20.0",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
