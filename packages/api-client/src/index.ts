@@ -9,9 +9,14 @@ export class ApiError extends Error {
   }
 }
 
+export interface ApiClientOptions {
+  baseUrl?: string;
+  headers?: Record<string, string>;
+}
+
 export async function apiClient<T>(
   url: string,
-  options?: RequestInit
+  options?: RequestInit & ApiClientOptions
 ): Promise<T> {
   const response = await fetch(url, {
     ...options,

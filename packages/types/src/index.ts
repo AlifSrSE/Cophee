@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { MenuResponseSchema, type MenuResponse } from "./menu";
 
 export const ApiResponseSchema = z.object({
   success: z.boolean(),
@@ -26,3 +27,5 @@ export const HealthResponseSchema = z.object({
 });
 
 export type HealthResponse = z.infer<typeof HealthResponseSchema>;
+
+export { MenuResponseSchema, type MenuResponse };
