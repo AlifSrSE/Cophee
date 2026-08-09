@@ -19,11 +19,13 @@
     "@cophee/logger": "workspace:*",
     "@cophee/types": "workspace:*",
     "@cophee/ui": "workspace:*",
+    "argon2": "^0.41.1",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@prisma/client": "^6.8.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
