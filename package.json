@@ -20,5 +20,9 @@
     "prisma": "^6.19.3",
     "turbo": "^2.5.3",
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.3",
+    "next-auth": "5.0.0-beta.32"
   }
 }
