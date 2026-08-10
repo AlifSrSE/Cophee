@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@prisma/client':
+        specifier: ^6.19.3
+        version: 6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3)
+      prisma:
+        specifier: ^6.19.3
+        version: 6.19.3(typescript@5.9.3)
       turbo:
         specifier: ^2.5.3
         version: 2.10.9
@@ -66,6 +72,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.2.4(@types/react@19.2.18)
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.6.1
       eslint:
         specifier: ^9
         version: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)

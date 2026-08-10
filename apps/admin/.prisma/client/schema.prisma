@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../apps/admin/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  MANAGER
+  STAFF
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  COMPLETED
+  CANCELLED
+}
+
+enum OrderSource {
+  DINE_IN
+  ONLINE
+  TAKEAWAY
+}
+
+enum TableStatus {
+  AVAILABLE
+  OCCUPIED
+  CLEANING
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  ORDER_CREATE
+  ORDER_UPDATE
+  INVENTORY_ADJUST
+}
+
+model AppRole {
+  id          String   @id @default(cuid())
+  name        Role     @unique
+  description String?
+  permissions Json
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("roles")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  isActive     Boolean    @default(true)
+  roleId       String
+  role         AppRole    @relation(fields: [roleId], references: [id])
+  employee     Employee?
+  auditLogs    AuditLog[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("users")
+}
+
+model Employee {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  hireDate  DateTime @default(now())
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("employees")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("categories")
+}
+
+model InventoryItem {
+  id           String              @id @default(cuid())
+  name         String              @unique
+  unit         String
+  currentStock Int                 @default(0)
+  minStock     Int                 @default(0)
+  costPerUnit  Float?
+  productLinks ProductIngredient[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  @@map("inventory_items")
+}
+
+model Product {
+  id          String              @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  imageKey    String?
+  categoryId  String
+  category    Category            @relation(fields: [categoryId], references: [id])
+  ingredients ProductIngredient[]
+  orderItems  OrderItem[]
+  isActive    Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  @@map("products")
+}
+
+model ProductIngredient {
+  id              String        @id @default(cuid())
+  productId       String
+  product         Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  inventoryItemId String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  quantity        Int
+
+  @@unique([productId, inventoryItemId])
+  @@map("product_ingredients")
+}
+
+model Table {
+  id        String      @id @default(cuid())
+  number    Int         @unique
+  status    TableStatus @default(AVAILABLE)
+  capacity  Int?
+  orders    Order[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("tables")
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  orderNumber   String      @unique
+  source        OrderSource
+  status        OrderStatus @default(PENDING)
+  tableId       String?
+  table         Table?      @relation(fields: [tableId], references: [id])
+  customerName  String
+  customerPhone String
+  paymentMethod String?
+  totalAmount   Float?
+  notes         String?
+  items         OrderItem[]
+  auditLogs     AuditLog[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([customerPhone])
+  @@index([status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+  subtotal  Float
+  createdAt DateTime @default(now())
+
+  @@map("order_items")
+}
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  action     AuditAction
+  entityType String
+  entityId   String
+  userId     String?
+  user       User?       @relation(fields: [userId], references: [id])
+  orderId    String?
+  order      Order?      @relation(fields: [orderId], references: [id])
+  changes    Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime    @default(now())
+
+  @@index([entityType, entityId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

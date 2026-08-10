@@ -135,88 +135,60 @@ async function main() {
       create: { name: "Butter", unit: "g", currentStock: 2000, minStock: 500, costPerUnit: 0.01 },
     });
 
-    const espresso = await tx.product.upsert({
-      where: { name: "Espresso" },
-      update: {},
-      create: { name: "Espresso", description: "Single shot espresso", price: 2.5, categoryId: coffeeCategory.id },
+    const espresso = await tx.product.create({
+      data: { name: "Espresso", description: "Single shot espresso", price: 2.5, categoryId: coffeeCategory.id },
     });
 
-    const latte = await tx.product.upsert({
-      where: { name: "Latte" },
-      update: {},
-      create: { name: "Latte", description: "Espresso with steamed milk", price: 4.5, categoryId: coffeeCategory.id },
+    const latte = await tx.product.create({
+      data: { name: "Latte", description: "Espresso with steamed milk", price: 4.5, categoryId: coffeeCategory.id },
     });
 
-    const cappuccino = await tx.product.upsert({
-      where: { name: "Cappuccino" },
-      update: {},
-      create: { name: "Cappuccino", description: "Espresso with foam", price: 4.0, categoryId: coffeeCategory.id },
+    const cappuccino = await tx.product.create({
+      data: { name: "Cappuccino", description: "Espresso with foam", price: 4.0, categoryId: coffeeCategory.id },
     });
 
-    const croissant = await tx.product.upsert({
-      where: { name: "Croissant" },
-      update: {},
-      create: { name: "Croissant", description: "Buttery flaky pastry", price: 3.5, categoryId: pastryCategory.id },
+    const croissant = await tx.product.create({
+      data: { name: "Croissant", description: "Buttery flaky pastry", price: 3.5, categoryId: pastryCategory.id },
     });
 
-    const muffin = await tx.product.upsert({
-      where: { name: "Muffin" },
-      update: {},
-      create: { name: "Muffin", description: "Blueberry muffin", price: 3.0, categoryId: pastryCategory.id },
+    const muffin = await tx.product.create({
+      data: { name: "Muffin", description: "Blueberry muffin", price: 3.0, categoryId: pastryCategory.id },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${espresso.id}-${inventoryCoffee.id}` },
-      update: {},
-      create: { productId: espresso.id, inventoryItemId: inventoryCoffee.id, quantity: 18 },
+    await tx.productIngredient.create({
+      data: { productId: espresso.id, inventoryItemId: inventoryCoffee.id, quantity: 18 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${latte.id}-${inventoryCoffee.id}` },
-      update: {},
-      create: { productId: latte.id, inventoryItemId: inventoryCoffee.id, quantity: 18 },
+    await tx.productIngredient.create({
+      data: { productId: latte.id, inventoryItemId: inventoryCoffee.id, quantity: 18 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${latte.id}-${inventoryMilk.id}` },
-      update: {},
-      create: { productId: latte.id, inventoryItemId: inventoryMilk.id, quantity: 200 },
+    await tx.productIngredient.create({
+      data: { productId: latte.id, inventoryItemId: inventoryMilk.id, quantity: 200 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${cappuccino.id}-${inventoryCoffee.id}` },
-      update: {},
-      create: { productId: cappuccino.id, inventoryItemId: inventoryCoffee.id, quantity: 18 },
+    await tx.productIngredient.create({
+      data: { productId: cappuccino.id, inventoryItemId: inventoryCoffee.id, quantity: 18 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${cappuccino.id}-${inventoryMilk.id}` },
-      update: {},
-      create: { productId: cappuccino.id, inventoryItemId: inventoryMilk.id, quantity: 100 },
+    await tx.productIngredient.create({
+      data: { productId: cappuccino.id, inventoryItemId: inventoryMilk.id, quantity: 100 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${croissant.id}-${inventoryFlour.id}` },
-      update: {},
-      create: { productId: croissant.id, inventoryItemId: inventoryFlour.id, quantity: 120 },
+    await tx.productIngredient.create({
+      data: { productId: croissant.id, inventoryItemId: inventoryFlour.id, quantity: 120 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${croissant.id}-${inventoryButter.id}` },
-      update: {},
-      create: { productId: croissant.id, inventoryItemId: inventoryButter.id, quantity: 60 },
+    await tx.productIngredient.create({
+      data: { productId: croissant.id, inventoryItemId: inventoryButter.id, quantity: 60 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${muffin.id}-${inventoryFlour.id}` },
-      update: {},
-      create: { productId: muffin.id, inventoryItemId: inventoryFlour.id, quantity: 100 },
+    await tx.productIngredient.create({
+      data: { productId: muffin.id, inventoryItemId: inventoryFlour.id, quantity: 100 },
     });
 
-    await tx.productIngredient.upsert({
-      where: { id: `${muffin.id}-${inventorySugar.id}` },
-      update: {},
-      create: { productId: muffin.id, inventoryItemId: inventorySugar.id, quantity: 40 },
+    await tx.productIngredient.create({
+      data: { productId: muffin.id, inventoryItemId: inventorySugar.id, quantity: 40 },
     });
 
     for (let i = 1; i <= 10; i++) {

@@ -16,6 +16,8 @@
     "clean": "turbo run clean"
   },
   "devDependencies": {
+    "@prisma/client": "^6.19.3",
+    "prisma": "^6.19.3",
     "turbo": "^2.5.3",
     "typescript": "^5"
   }
