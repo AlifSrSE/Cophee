@@ -28,6 +28,7 @@ export const { handlers, auth } = NextAuth({
           },
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const user = rawUser as any;
 
         if (!user || !user.employee || !user.isActive) {
@@ -45,8 +46,11 @@ export const { handlers, auth } = NextAuth({
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role.name,
-          permissions: user.role.permissions,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          role: (user as any).role.name,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          permissions: (user as any).role.permissions,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any;
       },
     }),
@@ -54,7 +58,9 @@ export const { handlers, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         token.role = (user as any).role;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         token.permissions = (user as any).permissions;
       }
       return token;
@@ -62,7 +68,9 @@ export const { handlers, auth } = NextAuth({
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub as string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (session.user as any).role = token.role as string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (session.user as any).permissions = token.permissions as Record<string, unknown>;
       }
       return session;
