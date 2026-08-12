@@ -37,7 +37,8 @@ export default function POSPage() {
         throw new Error("Failed to create order");
       }
 
-      router.push("/orders");
+      const order = await response.json();
+      router.push(`/order-confirmation?orderId=${order.id}`);
     } catch (error) {
       console.error("Error creating order:", error);
       alert("Failed to create order");
