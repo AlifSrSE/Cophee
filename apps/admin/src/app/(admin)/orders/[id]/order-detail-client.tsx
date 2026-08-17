@@ -1,5 +1,6 @@
 import { prisma } from "@cophee/database";
 import { notFound } from "next/navigation";
+import OrderDetailActions from "./order-detail-actions";
 
 async function getOrder(id: string) {
   try {
@@ -131,6 +132,8 @@ export default async function OrderDetailClient({ id }: { id: string }) {
           </div>
         </div>
       </div>
+
+      <OrderDetailActions orderId={order.id} currentStatus={order.status} />
     </div>
   );
 }
