@@ -13,6 +13,7 @@ interface Table {
 export default function TablesPageClient() {
   const [tables, setTables] = useState<Table[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchTables();
@@ -34,6 +35,29 @@ export default function TablesPageClient() {
 
   const getQrCodeUrl = (tableId: string) => {
     return `http://localhost:3001/[table]?table=${tableId}`;
+  };
+
+  const updateTableStatus = async (tableId: string, status: string) => {
+    setUpdatingId(tableId);
+    try {
+      const response = await fetch(`/api/v1/tables/${tableId}/status`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      if (response.ok) {
+        setTables((prev) =>
+          prev.map((table) => (table.id === tableId ? { ...table, status } : table))
+        );
+      }
+    } catch (error) {
+      console.error("Error updating table status:", error);
+    } finally {
+      setUpdatingId(null);
+    }
   };
 
   const statusColors = {
@@ -108,23 +132,16 @@ export default function TablesPageClient() {
                       {table.capacity || "-"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <form action={`/api/v1/tables/${table.id}/status`} method="POST">
-                        <select
-                          name="status"
-                          defaultValue={table.status}
-                          className="text-sm border border-gray-300 rounded-md px-2 py-1"
-                        >
-                          <option value="AVAILABLE">Available</option>
-                          <option value="OCCUPIED">Occupied</option>
-                          <option value="CLEANING">Cleaning</option>
-                        </select>
-                        <button
-                          type="submit"
-                          className="ml-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-                        >
-                          Update
-                        </button>
-                      </form>
+                      <select
+                        value={table.status}
+                        onChange={(e) => updateTableStatus(table.id, e.target.value)}
+                        disabled={updatingId === table.id}
+                        className="text-sm border border-gray-300 rounded-md px-2 py-1 disabled:opacity-50"
+                      >
+                        <option value="AVAILABLE">Available</option>
+                        <option value="OCCUPIED">Occupied</option>
+                        <option value="CLEANING">Cleaning</option>
+                      </select>
                     </td>
                   </tr>
                 ))
